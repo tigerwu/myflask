@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}新增条目{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+    <label for="title">标题</label>
+    <input name="title" id="title" value="{{ request.form['title'] }}" required>
+    <label for="body">简介</label>
+    <textarea name="body" id="body">{{ request.form['body'] }}</textarea>
+    <label for="wavefile">音频文件</label>
+    <input id="wavefile" name="wavefile">
+    <input type="submit" value="提交保存">
+</form>
+<form id="uploadForm" action="upload" method="post" enctype="multipart/form-data">
+    <input type="file"  name="file" id="uploadfile">
+    <input type="button" id="uploadbtn" value="上传" disabled>
+</form>
+
+<script>
+$("#uploadfile").change(function(){
+    $("#uploadbtn").removeAttr("disabled");
+});
+
+$("#uploadbtn").click(function(){
+    var formData = new FormData($('#uploadForm')[0]);
+    $.ajax({
+        url:"upload",
+        type: "POST",
+        data: formData,
+        async: true,
+        cashe: false,
+        contentType:false,
+        processData:false,
+        success:function (returndata) {
+            $("#wavefile").val(returndata.filename);
+    　　},
+    　　error: function (returndata) {
+    　　　　　alert("上传失败！")
+
+    　　}
+    })
+});
+/*
+var up_file = function () {
+    var formData = new FormData($('#uploadForm')[0]);
+    $.ajax({
+        url:"upload",
+        type: "POST",
+        data: formData,
+        async: true,
+        cashe: false,
+        contentType:false,
+        processData:false,
+        success:function (returndata) {
+            alert(returndata)
+    　　},
+    　　error: function (returndata) {
+    　　　　　alert("上传失败！")
+
+    　　}
+    })
+};
+*/
+</script>
+{% endblock %}

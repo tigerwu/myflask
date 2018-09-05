@@ -1,0 +1,25 @@
+<!doctype html>
+<title>{% block title %}{% endblock %} - 音乐博客</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="{{ url_for('static', filename='jquery-3.3.1.min.js') }}"></script>
+<nav>
+  <h1>音乐博客</h1>
+  <ul>
+    {% if g.user %}
+      <li><span>{{ g.user['username'] }}</span>
+      <li><a href="{{ url_for('auth.logout') }}">登 出</a>
+    {% else %}
+      <li><a href="{{ url_for('auth.register') }}">注 册</a>
+      <li><a href="{{ url_for('auth.login') }}">登 录</a>
+    {% endif %}
+  </ul>
+</nav>
+<section class="content">
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</section>
