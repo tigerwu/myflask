@@ -70,6 +70,11 @@ def get_post(id, check_author=True):
 @bp.route('/<int:id>/analysis', methods=('GET', 'POST'))
 @login_required
 def analysis(id):
+    '''
+    对接频谱分析
+    :param id:
+    :return:
+    '''
     pass
 
 @bp.route('/<int:id>/update', methods=('GET', 'POST'))
